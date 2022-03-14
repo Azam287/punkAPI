@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script defer src="index.js" type="text/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script> -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+    <script src="//unpkg.com/vue-plain-pagination@0.2.1"></script>
+    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="index.css">
+    <title>Document</title>
+
+    <script defer src="//unpkg.com/vue"></script>
+    <script defer src="//unpkg.com/vue-plain-pagination"></script>
+
+</head>
+<body>
+<div class="main-container">
+    <div v-cloak id="app1">
+        <div class="topbar-container">
+            <div class="announcement-bar" style="background-color: #000;">
+                <div class="announcement-bar-msg" style="color: #fff;">
+                    <h1>SET YOUR DELIVERY ADDRESS TO SEE LOCAL PRICING AND DELIVERY OPTIONS.</h1>
+                </div>
+            </div>
+            <div class="pagination-main-container">
+                <div class="wrap">
+                    <div class="search">
+                        <label for="pg-search-item">
+                            <input id="pg-search-item" type="text"  v-model="searchItem" @input="filterItem" class="searchTerm" placeholder="What are you looking for?">
+                            <!--                            <input id="pg-search-item" type="text"  v-model="searchItem" @keyup.enter="filterItem" class="searchTerm" placeholder="What are you looking for?">-->
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="nav-bar-container">
+
+            </div>
+        </div>
+        <div class="collection-banner-img">
+            <h1 class="img-banner-beer-title">Beer, Cider &amp; Hard Seltzers Delivery</h1>
+            <img src="https://saucey-media.s3.amazonaws.com/web/category-images/beer-header-image.jpg" loading="lazy" width="" height="" class="collection-image" alt="All Products">
+        </div>
+        <div class="st-pagination">
+
+        </div>
+
+        <div class="item-display-container">
+            <div class="item-display-inner">
+                <div class="filter-main-container">
+                    <div class="filter-inner-container">
+                        <div class="filter-title-container">
+                            <span class="filter-title">Filtering by</span>
+                            <span v-show="clearBtnActive" v-on:click="clearAllFilter" class="clear-filter-btn click-btn filter-title">Clear</span>
+                        </div>
+                        <div class="side-bar-container">
+                            <div class="side-bar-inner-container">
+                                <div class="side-bar-filter">
+                                    <div class="side-bar-title filter-title">
+                                        <span class="filter-heading">ALCOHOL BY VOLUME</span>
+                                        <span class="cross-icon-abv-btn cross-icon-btn" v-if="crossAbvBtnActive" v-on:click="clearFilterBtn('abv')" ><i class="fas fa-times"></i></span>
+                                        <span v-if="hideAbvActive" v-on:click="hideAbvActive=!hideAbvActive" class="hide-btn">show</span>
+                                        <span v-else-if="!hideAbvActive" v-on:click="hideAbvActive=!hideAbvActive" class="hide-btn">hide</span>
+
+
+                                    </div>
+                                    <div v-if="!hideAbvActive" class="side-bar-row-container">
+                                        <div class="side-bar-row">
+                                            <label for="&abv_lt=4" class="click-btn">
+                                                <input id="&abv_lt=4" v-model="itemAbvCheck" v-on:change="paginationActive" value="&abv_lt=4" name="abv" type="radio">
+                                                <span class="checkbox click-btn">
+                                    <i class="fa fa-check" aria-hidden="true"></i>
+                                </span>
+                                                <span class="checkbox-title click-btn">Below 4%</span>
+                                            </label>
+                                        </div>
+                                        <div class="side-bar-row">
+                                            <label for="&abv_gt=4&abv_lt=6" class="click-btn">
+                                                <input id="&abv_gt=4&abv_lt=6" v-model="itemAbvCheck" v-on:change="paginationActive" value="&abv_gt=4&abv_lt=6" name="abv" type="radio">
+                                                <span class="checkbox">
+                                    <i class="fa fa-check" aria-hidden="true"></i>
+                                </span>
+                                                <span class="checkbox-title">4% to 6%</span>
+                                            </label>
+                                        </div>
+                                        <div class="side-bar-row">
+                                            <label for="&abv_gt=6&abv_lt=8" class="click-btn">
+                                                <input id="&abv_gt=6&abv_lt=8" v-model="itemAbvCheck" v-on:change="paginationActive" value="&abv_gt=6&abv_lt=8" name="abv"  type="radio">
+                                                <span class="checkbox">
+                                    <i class="fa fa-check" aria-hidden="true"></i>
+                                </span>
+                                                <span class="checkbox-title">6% to 8%</span>
+                                            </label>
+                                        </div>
+                                        <div class="side-bar-row">
+                                            <label for="&abv_gt=8" class="click-btn">
+                                                <input id="&abv_gt=8" v-model="itemAbvCheck" value="&abv_gt=8" v-on:change="paginationActive" name="abv"  type="radio">
+                                                <span class="checkbox">
+                                    <i class="fa fa-check" aria-hidden="true"></i>
+                                </span>
+                                                <span class="checkbox-title">Above 8%</span>
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="side-bar-inner-container">
+                                <div class="side-bar-filter">
+                                    <div class="side-bar-title filter-title">
+                                        <span class="filter-heading">BITTERNESS LEVEL</span>
+                                        <span class="cross-icon-ibu-btn cross-icon-btn" v-if="crossIbuBtnActive" v-on:click="clearFilterBtn('ibu')" ><i class="fas fa-times"></i></span>
+                                        <span v-if="hideIbuActive" v-on:click="hideIbuActive=!hideIbuActive" class="hide-btn">show</span>
+                                        <span v-else-if="!hideIbuActive" v-on:click="hideIbuActive=!hideIbuActive" class="hide-btn">hide</span>
+                                    </div>
+                                    <div v-if="!hideIbuActive" class="side-bar-row-container">
+                                        <div class="side-bar-row">
+                                            <label for="&ibu_lt=25" class="click-btn">
+                                                <input id="&ibu_lt=25" v-model="itemIbuCheck" v-on:change="paginationActive" value="&ibu_lt=25" name="ibu" type="radio">
+                                                <span class="checkbox">
+                                    <i class="fa fa-check" aria-hidden="true"></i>
+                                </span>
+                                                <span class="checkbox-title">Below 25</span>
+                                            </label>
+                                        </div>
+                                        <div class="side-bar-row">
+                                            <label for="&ibu_gt=25&ibu_lt=50" class="click-btn">
+                                                <input id="&ibu_gt=25&ibu_lt=50" v-model="itemIbuCheck" v-on:change="paginationActive" value="&ibu_gt=25&ibu_lt=50" name="ibu" type="radio">
+                                                <span class="checkbox">
+                                    <i class="fa fa-check" aria-hidden="true"></i>
+                                </span>
+                                                <span class="checkbox-title">25 to 50</span>
+                                            </label>
+                                        </div>
+                                        <div class="side-bar-row">
+                                            <label for="&ibu_gt=50&ibu_lt=70" class="click-btn">
+                                                <input id="&ibu_gt=50&ibu_lt=70" v-model="itemIbuCheck" v-on:change="paginationActive" value="&ibu_gt=50&ibu_lt=70" name="ibu" type="radio">
+                                                <span class="checkbox">
+                                    <i class="fa fa-check" aria-hidden="true"></i>
+                                </span>
+                                                <span class="checkbox-title">50 to 70</span>
+                                            </label>
+                                        </div>
+                                        <div class="side-bar-row">
+                                            <label for="&ibu_gt=75" class="click-btn">
+                                                <input id="&ibu_gt=75" v-model="itemIbuCheck" v-on:change="paginationActive" value="&ibu_gt=75" name="ibu" type="radio">
+                                                <span class="checkbox">
+                                    <i class="fa fa-check" aria-hidden="true"></i>
+                                </span>
+                                                <span class="checkbox-title">Above 75</span>
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!--      <div class="total-item-counter">{{totalItems}} results</div>-->
+                <div class="collection-container">
+                    <div class="collection-title">
+                        <h1>Beer's</h1>
+                    </div>
+                    <div class="total-item-counter-container">
+                        <div class="total-item-counter">{{totalItems}} results</div>
+                        <div class="select-item-container">
+                            <label for="select-items">Select page size:</label>
+                            <select v-model="perPage" v-on:change="fetchBeerData" name="cars" id="select-items">
+                                <option value="5">5</option>
+                                <option value="10">10</option>
+                                <option value="25">25</option>
+                            </select>
+                        </div>
+                    </div>
+
+
+                    <div v-if="result" class="cards-main-container">
+
+                        <div class="no-result-page-container" v-if="noResultPageActive">
+                            <div class="no-result-page-inner-container">
+                                <h1 class="no-result-main-heading">
+                                    Results for "{{searchItem}}"
+                                </h1>
+                                <h2 class="no-result-second-heading">
+                                    We found 0 result
+                                </h2>
+                            </div>
+                        </div>
+
+                        <div v-if="errorPageActive" class="error-page-container">
+                            <div class="error-page-inner-container">
+                                <h1 class="error-msg no-result-main-heading">Oops! No Results Found</h1>
+                            </div>
+
+                        </div>
+
+                        <div v-if="!errorPageActive && !noResultPageActive" v-for="item in result" :key="item.id" class="cards">
+                            <div class="cards-inner-container">
+                                <div class="image-container">
+                                    <div class="image-inner-container">
+                                        <img v-if="item.image_url" v-bind:src="item.image_url">
+                                        <img v-else src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT04YlXcCWXwVzK7QD-R67tFRRCRfl-YOJeuM9U-Hnc69zygDT5nRG0tBNfjG2Z25p47_Q&usqp=CAU">
+                                    </div>
+                                </div>
+                                <div class="info-container">
+                                    <div class="cards-title-container">
+                                        <span class="card-id">{{item.id}}</span>
+                                        <span class="card-title">{{item.name}}</span>
+                                    </div>
+                                    <div class="cards-description-container">
+                                        <div class="cards-description">
+                                            <p>{{item.description}}</p>
+                                        </div>
+                                    </div>
+                                    <div class="price-abv-values-container">
+                                        <div class="abv-ibu-container">
+                                            <div class="abv-title-container">
+                                                <span class="abv-title abv-ibu-text">ABV:</span>
+                                                <span class="abv-value ">{{item.abv}}%</span>
+                                            </div>
+                                            <div class="ibu-title-container">
+                                                <span class="ibu-title abv-ibu-text">IBU:</span>
+                                                <span class="ibu-value">{{item.ibu}}</span>
+                                            </div>
+                                        </div>
+                                        <div class="cards-target-container">
+                                            <span class="cards-target-fg">Rs.{{item.target_fg}}</span>
+                                            <span class="old-price">
+                                            Rs.
+                                            <span class="cards-target_og">{{item.target_og}}</span>
+                                        </span>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div v-if="!errorPageActive" class="pagination-container">
+            <div class="pagination-inner-container">
+                <!--                <p>page: {{ currentPage }}</p>-->
+                <v-pagination v-show="activePagination === true" v-model="currentPage" :page-count="total" :classes="bootstrapPaginationClasses">
+                </v-pagination>
+                <div v-show="!activePagination" class="filter-pagination">
+                    <span><button type="button" class="btn btn-outline-primary" v-show="currentPage>1" v-on:click="fetchBeerData(currentPage--)">Prev</button></span>
+                    <span><button type="button" class="btn btn-outline-primary" v-show="nextBtnActive" v-on:click="fetchBeerData(currentPage++)">Next</button></span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+</body>
+</html>
